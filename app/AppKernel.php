@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new JavierEguiluz\Bundle\EasyAdminBundle\EasyAdminBundle(),
             new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
             new FM\ElfinderBundle\FMElfinderBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
             new CvBundle\CvBundle(),
         );
 
