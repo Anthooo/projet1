@@ -102,6 +102,18 @@ easy_admin:
         Projet:
             class: CvBundle\Entity\Projet
 
+        User:
+            class: CvBundle\Entity\User
+            form:
+                fields:
+                    - username
+                    - email
+                    - enabled
+                    - lastLogin
+                    # if administrators are allowed to edit users' passwords and roles, add this:
+                    - { property: 'plainPassword', type: 'text', type_options: { required: false } }
+                    - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN' } } }
+
 
 ivory_ck_editor:
     default_config:    my_custom_config
@@ -125,3 +137,8 @@ fm_elfinder:
                         upload_allow: ['image/png', 'image/jpg', 'image/jpeg']
                         upload_deny: ['all']
                         upload_max_size: 2M
+
+fos_user:
+    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    firewall_name: main
+    user_class: CvBundle\Entity\User
