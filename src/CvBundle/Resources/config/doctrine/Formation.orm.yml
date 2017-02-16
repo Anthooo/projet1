@@ -1,0 +1,26 @@
+CvBundle\Entity\Formation:
+    type: entity
+    table: null
+    repositoryClass: CvBundle\Repository\FormationRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+        lieu:
+            type: string
+            length: 255
+        description:
+            type: text
+        dateDebut:
+            type: date
+            column: date_debut
+        dateFin:
+            type: date
+            column: date_fin
+    lifecycleCallbacks: {  }

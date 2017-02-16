@@ -1,0 +1,127 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+    - { resource: "@CvBundle/Resources/config/services.yml" }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: fr
+
+framework:
+    #esi:             ~
+    translator:      { fallbacks: ["%locale%"] }
+    secret:          "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    #serializer:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale:  "%locale%"
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    session:
+        # handler_id set to null will use default session handler from php.ini
+        handler_id:  ~
+    fragments:       ~
+    http_method_override: true
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   pdo_mysql
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
+        charset:  UTF8
+
+        # if using pdo_sqlite as your database driver:
+        #   1. add the path in parameters.yml
+        #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
+        #   2. Uncomment database_path in parameters.yml.dist
+        #   3. Uncomment next line:
+        #path:     "%database_path%"
+
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    spool:     { type: memory }
+
+easy_admin:
+    site_name: 'Mon CV'
+    design:
+          brand_color: '#5EB1EB'
+    entities:
+        Experience:
+            class: CvBundle\Entity\Experience
+            list:
+                fields:
+                      - { property: 'name', type: 'text', label: 'Nom' }
+                      - { property: 'description', type: 'ckeditor', label: 'Description' }
+                      - { property: 'date_debut', type: 'date', label: 'Date début' }
+                      - { property: 'date_fin', type: 'date', label: 'Date début' }
+                actions:
+                      - { name: 'edit', icon: 'pencil', label: '' }
+                      - { name: 'delete', icon: 'trash', label: '' }
+            show:
+                fields:
+                      - { property: 'name', type: 'text', label: 'Nom' }
+                      - { property: 'description', type: 'ckeditor', label: 'Description' }
+                      - { property: 'date_debut', type: 'date', label: 'Date début' }
+                      - { property: 'date_fin', type: 'date', label: 'Date début' }
+            form:
+                fields:
+                    - { property: 'name', type: 'text', label: 'Nom' }
+                    - { property: 'description', type: 'ckeditor', label: 'Description' }
+                    - { property: 'date_debut', type: 'date', label: 'Date début' }
+                    - { property: 'date_fin', type: 'date', label: 'Date début' }
+
+        Formation:
+            class: CvBundle\Entity\Formation
+
+        Projet:
+            class: CvBundle\Entity\Projet
+
+
+ivory_ck_editor:
+    default_config:    my_custom_config
+    configs:
+        my_custom_config:
+            toolbar: [ [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ], ['SpellChecker', 'Scayt' ], [ 'Source' ], "/", [ 'Bold','Italic','Underline','Strike', 'Blockquote','Subscript','Superscript' ], [ 'NumberedList','-','Outdent','Indent','-','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' ], [ 'Link','Unlink' ], [ 'Image', 'SpecialChar','Iframe' ], '/', [ 'Font','FontSize' ], [ 'TextColor','BGColor' ], [ 'RemoveFormat' ], [ 'Maximize' ] ]
+            language: %locale%
+            filebrowserBrowseRoute: elfinder
+
+fm_elfinder:
+    instances:
+        default:
+            locale: %locale%
+            editor: ckeditor
+            include_assets: true
+            connector:
+                roots:
+                    uploads:
+                        driver: LocalFileSystem
+                        path: uploads/images
+                        upload_allow: ['image/png', 'image/jpg', 'image/jpeg']
+                        upload_deny: ['all']
+                        upload_max_size: 2M

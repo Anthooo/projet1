@@ -1,0 +1,4 @@
+cv:
+    resource: "@CvBundle/Resources/config/routing.yml"
+    prefix:   /
+

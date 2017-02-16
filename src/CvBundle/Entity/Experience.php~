@@ -1,0 +1,15 @@
+<?php
+
+namespace CvBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+
+
+/**
+ * Experience
+ */
+class Experience
+{
+
+}
